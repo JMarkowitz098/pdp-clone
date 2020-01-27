@@ -1,0 +1,26 @@
+{
+  "name": "Pandel_De_Pon_Clone",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "sass": "sass --watch dist/stylesheets/scss:dist/stylesheets/public",
+    "start": "webpack --mode=development --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JMarkowitz098/pdp-clone.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JMarkowitz098/pdp-clone/issues"
+  },
+  "homepage": "https://github.com/JMarkowitz098/pdp-clone#readme"
+}
