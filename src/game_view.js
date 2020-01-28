@@ -23,6 +23,8 @@ class GameView {
         // this.game.moveBlocks();
         // this.game.moveCursor();
         this.game.draw(this.ctx);
+        this.game.haveBlocksFall();
+        this.game.clearMatchingBlocks();
     }
 
     onKeyDown(e) {

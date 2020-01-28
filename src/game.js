@@ -68,29 +68,103 @@ class Game {
 
     swapBlocks() {
         const cursorPos = this.cursor.pos;
-        
 
         this.blocks.forEach((row, rowIdx) => {
             row.forEach((block, colIdx) => {
                 if (block.pos[0] === cursorPos[0] && block.pos[1] === cursorPos[1]) {
-                    console.log(`Cursor: ${cursorPos}`)
-                    console.log(`Block1: ${block.pos}`)
-                    console.log(`Block2: ${this.blocks[rowIdx][colIdx + 1].pos}`)
-
-
-                    let oldPos = block.pos;
-                    block.pos = this.blocks[rowIdx][colIdx + 1].pos;
-                    this.blocks[rowIdx][colIdx + 1].pos = oldPos;
-
-                    let first = this.blocks[rowIdx][colIdx];
-                    this.blocks[rowIdx][colIdx] = this.blocks[rowIdx][colIdx + 1]
-                    this.blocks[rowIdx][colIdx + 1] = first
-
+                    let nextBlock = this.blocks[rowIdx][colIdx + 1]
+                    this.swapBlockPositions(block, nextBlock)
+                    this.swapPosInBlocksArrHor(rowIdx, colIdx)
                 }
             })
         })
+    }
 
+    swapBlockPositions(firstBlock, nextBlock) {
+        let firstBlockPos = firstBlock.pos;
+        firstBlock.pos = nextBlock.pos;
+        nextBlock.pos = firstBlockPos;
+    }
 
+    swapPosInBlocksArrHor(rowIdx, colIdx) {
+        let first = this.blocks[rowIdx][colIdx];
+        this.blocks[rowIdx][colIdx] = this.blocks[rowIdx][colIdx + 1]
+        this.blocks[rowIdx][colIdx + 1] = first
+    }
+
+    clearMatchingBlocks() {
+        for (let rowIdx = 0; rowIdx < this.blocks.length; rowIdx ++){
+            for (let colIdx = 0; colIdx < this.blocks[0].length; colIdx ++) {
+        
+                if (colIdx < this.blocks[rowIdx].length - 2){
+                    this.clearMatchingRow(rowIdx, colIdx)
+                }
+                if (rowIdx < this.blocks.length - 2) {
+                    this.clearMatchingCol(rowIdx, colIdx)
+                }
+            }
+        }
+    }
+
+    clearMatchingRow(rowIdx, colIdx) {
+        let matchingBlocks = this.createMatchingBlocksArr(rowIdx, colIdx);
+
+        if (this.colorsMatched(matchingBlocks[0], matchingBlocks[1], matchingBlocks[2])) {
+            this.turnBlocksWhite(matchingBlocks[0], matchingBlocks[1], matchingBlocks[2])
+        }
+    }
+
+    clearMatchingCol(rowIdx, colIdx) {
+        let firstBlock = this.blocks[rowIdx][colIdx];
+        let secondBlock = this.blocks[rowIdx + 1][colIdx];
+        let thirdBlock = this.blocks[rowIdx + 2][colIdx];
+
+        if (this.colorsMatched(firstBlock, secondBlock, thirdBlock)) {
+            this.turnBlocksWhite(firstBlock,secondBlock, thirdBlock)
+        }
+    }
+
+    createMatchingBlocksArr(rowIdx, colIdx, type) {
+        let matchingBlocks = [];
+        let firstBlock = this.blocks[rowIdx][colIdx];
+        let secondBlock = this.blocks[rowIdx][colIdx + 1];
+        let thirdBlock = this.blocks[rowIdx][colIdx + 2];
+        matchingBlocks = [firstBlock, secondBlock, thirdBlock]
+        return matchingBlocks;
+    }
+
+    colorsMatched(firstBlock, secondBlock, thirdBlock) {
+        if (firstBlock.color === secondBlock.color && firstBlock.color === thirdBlock.color && firstBlock.color !== "white"){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    turnBlocksWhite(firstBlock, secondBlock, thirdBlock) {
+        firstBlock.color = "white";
+        secondBlock.color = "white";
+        thirdBlock.color = "white";
+    }
+
+    haveBlocksFall() {
+        for (let rowIdx = 1; rowIdx < this.blocks.length; rowIdx++) {
+            for (let colIdx = 0; colIdx < this.blocks[0].length; colIdx++) {
+                let topBlock = this.blocks[rowIdx][colIdx];
+                let bottomBlock = this.blocks[rowIdx - 1][colIdx];
+
+                if(bottomBlock.color === "white" && topBlock.color !== "white") {
+                    this.swapBlockPositions(topBlock, bottomBlock)
+                    this.swapPosInBlocksArrVert(rowIdx, colIdx);
+                }
+            }
+        }
+    }
+
+    swapPosInBlocksArrVert(rowIdx, colIdx) {
+        let first = this.blocks[rowIdx][colIdx];
+        this.blocks[rowIdx][colIdx] = this.blocks[rowIdx - 1][colIdx]
+        this.blocks[rowIdx - 1][colIdx] = first
     }
 }
 
