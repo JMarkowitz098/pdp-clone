@@ -94,8 +94,7 @@ class Game {
 
     clearMatchingBlocks() {
         for (let rowIdx = 0; rowIdx < this.blocks.length; rowIdx ++){
-            for (let colIdx = 0; colIdx < this.blocks[0].length; colIdx ++) {
-        
+            for (let colIdx = 0; colIdx < this.NUM_COLUMNS; colIdx ++) {
                 if (colIdx < this.blocks[rowIdx].length - 2){
                     this.clearMatchingRow(rowIdx, colIdx)
                 }
@@ -107,44 +106,82 @@ class Game {
     }
 
     clearMatchingRow(rowIdx, colIdx) {
-        let matchingBlocks = this.createMatchingBlocksArr(rowIdx, colIdx);
+        let matchingBlocks = this.createMatchingBlocksArr(rowIdx, colIdx, 'row');
 
-        if (this.colorsMatched(matchingBlocks[0], matchingBlocks[1], matchingBlocks[2])) {
-            this.turnBlocksWhite(matchingBlocks[0], matchingBlocks[1], matchingBlocks[2])
+        if (matchingBlocks.length > 2 && this.colorsMatched(matchingBlocks)) {
+            this.turnBlocksWhite(matchingBlocks)
         }
     }
 
     clearMatchingCol(rowIdx, colIdx) {
-        let firstBlock = this.blocks[rowIdx][colIdx];
-        let secondBlock = this.blocks[rowIdx + 1][colIdx];
-        let thirdBlock = this.blocks[rowIdx + 2][colIdx];
+        let matchingBlocks = this.createMatchingBlocksArr(rowIdx, colIdx, 'col');
 
-        if (this.colorsMatched(firstBlock, secondBlock, thirdBlock)) {
-            this.turnBlocksWhite(firstBlock,secondBlock, thirdBlock)
+        if (matchingBlocks.length > 2 && this.colorsMatched(matchingBlocks)) {
+            this.turnBlocksWhite(matchingBlocks)
         }
     }
 
     createMatchingBlocksArr(rowIdx, colIdx, type) {
         let matchingBlocks = [];
-        let firstBlock = this.blocks[rowIdx][colIdx];
-        let secondBlock = this.blocks[rowIdx][colIdx + 1];
-        let thirdBlock = this.blocks[rowIdx][colIdx + 2];
-        matchingBlocks = [firstBlock, secondBlock, thirdBlock]
+        matchingBlocks.push(this.blocks[rowIdx][colIdx])
+        if (type === "row"){
+            while(this.nextBlockExists(rowIdx, colIdx,type) && this.nextBlockMatched(rowIdx, colIdx, type)) {
+                colIdx += 1;
+                matchingBlocks.push(this.blocks[rowIdx][colIdx]);
+            }
+        } else {
+            while(this.nextBlockExists(rowIdx, colIdx, type) && this.nextBlockMatched(rowIdx, colIdx, type)) {
+                rowIdx += 1;
+                matchingBlocks.push(this.blocks[rowIdx][colIdx]);
+            }
+        }
         return matchingBlocks;
     }
 
-    colorsMatched(firstBlock, secondBlock, thirdBlock) {
-        if (firstBlock.color === secondBlock.color && firstBlock.color === thirdBlock.color && firstBlock.color !== "white"){
+    nextBlockMatched(rowIdx, colIdx, type) {
+        let block = this.blocks[rowIdx][colIdx]
+        let nextBlock = this.nextBlock(rowIdx, colIdx, type);
+    
+        if (block.color === nextBlock.color) {
             return true;
         } else {
             return false;
         }
     }
 
-    turnBlocksWhite(firstBlock, secondBlock, thirdBlock) {
-        firstBlock.color = "white";
-        secondBlock.color = "white";
-        thirdBlock.color = "white";
+    nextBlock(rowIdx, colIdx, type) {
+        if (type === 'row') {
+            return this.blocks[rowIdx][colIdx + 1]
+        } else {
+            return this.blocks[rowIdx + 1][colIdx]
+        }
+    }
+
+    nextBlockExists(rowIdx, colIdx, type) {
+        if(type === "row" && colIdx + 1 > this.NUM_COLUMNS - 1) {
+            return false;
+        } else if (type === "col" && rowIdx + 1 > this.blocks.length - 1) {
+            return false
+        } else {
+            return true;
+        }
+    }
+
+    colorsMatched(matchingBlocks) {
+        if (matchingBlocks[0].color === matchingBlocks[1].color 
+            && matchingBlocks[0].color === matchingBlocks[2].color 
+            && matchingBlocks[0].color !== "white")
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    turnBlocksWhite(matchingBlocks) {
+        matchingBlocks.forEach(block => {
+            block.color = "white"
+        })
     }
 
     haveBlocksFall() {

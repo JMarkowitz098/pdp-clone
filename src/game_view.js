@@ -15,16 +15,19 @@ class GameView {
 
     start() {
         this.bindKeyHandlers();
-        setInterval(this.step, 20)
+        requestAnimationFrame(this.step)
     }
 
     step() {
         //disabled for testing
         // this.game.moveBlocks();
         // this.game.moveCursor();
+
         this.game.draw(this.ctx);
         this.game.haveBlocksFall();
         this.game.clearMatchingBlocks();
+
+        requestAnimationFrame(this.step)
     }
 
     onKeyDown(e) {

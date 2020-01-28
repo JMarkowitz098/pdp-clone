@@ -19,6 +19,7 @@ class Block {
         let y = this.pos[1];
 
         ctx.fillRect(x, y, this.size, this.size);
+
     }
 
     move() {
