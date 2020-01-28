@@ -4,10 +4,10 @@ class GameView {
         this.game = game;
         this.step = this.step.bind(this)
         this.MOVES = {
-            w: [0, -65],
-            a: [-65, 0],
-            s: [0, 65],
-            d: [65, 0],
+            w: [0, -50],
+            a: [-50, 0],
+            s: [0, 50],
+            d: [50, 0],
         }
 
         this.onKeyDown = this.onKeyDown.bind(this)
@@ -19,19 +19,21 @@ class GameView {
     }
 
     step() {
-        this.game.moveBlocks();
-        this.game.moveCursor();
+        //disabled for testing
+        // this.game.moveBlocks();
+        // this.game.moveCursor();
         this.game.draw(this.ctx);
     }
 
     onKeyDown(e) {
         const cursor = this.game.cursor;
         const move = this.MOVES[e.key];
-        if (e.key == "w") cursor.changePos(move)
-        if (e.key == "a") cursor.changePos(move)
-        if (e.key == "s") cursor.changePos(move)
-        if (e.key == "d") cursor.changePos(move)
-        
+
+        if (Object.keys(this.MOVES).includes(e.key)){
+            cursor.changePos(move)    
+        } else if (e.key === " ") {
+            this.game.swapBlocks();
+        } 
     }
 
     bindKeyHandlers() {

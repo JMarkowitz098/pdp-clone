@@ -3,7 +3,7 @@ class Cursor {
         this.pos = options.pos;
         this.vel = 2;
         this.color = "black";
-        this.size = 60;
+        this.size = 50;
     }
 
     draw(ctx) {
@@ -13,7 +13,6 @@ class Cursor {
         let y = this.pos[1];
 
         ctx.strokeRect(x, y, this.size * 2, this.size);
-        // ctx.strok();
     }
 
     move() {

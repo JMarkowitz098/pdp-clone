@@ -2,8 +2,14 @@ class Block {
     constructor(options) {
         this.pos = options.pos;
         this.vel = 2;
-        this.color = "blue";
-        this.size = 60;
+        this.color = this.randColor();
+        this.size = 50;
+    }
+
+    randColor() {
+        const COLORS = ["red", "yellow", "green", "blue"]
+        let color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        return color;
     }
 
     draw(ctx) {

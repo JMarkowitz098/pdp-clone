@@ -5,30 +5,30 @@ class Game {
     constructor() {
 
         this.DIM_X = 400;
-        this.DIM_Y = 700;
+        this.DIM_Y = 800;
         this.NUM_START_ROWS = 4;
         this.NUM_COLUMNS = 6;
         this.blocks = this.createAllRows();
-        this.cursor = new Cursor({pos: [78,560]});
+        this.cursor = new Cursor({pos: [100,600]});
     }
 
     createAllRows() {
         let blocks = [];
-        let yPos = 690;
+        let yPos = 700;
         for(let i = 0; i < this.NUM_START_ROWS; i++) {
             blocks.push(this.createSingleRow(yPos));
-            yPos -= 65;
+            yPos -= 50;
         }
         return blocks
     }
 
     createSingleRow(rowStartPos) {
-        let pos = [10, rowStartPos]
+        let pos = [0, rowStartPos]
         let blocks = []
         for(let i = 0; i < this.NUM_COLUMNS; i ++){
             let block = new Block({pos: [pos[0], pos[1]]})
             blocks.push(block);
-            pos[0] += 65;
+            pos[0] += 50;
         }
         return blocks;
     } 
@@ -64,6 +64,33 @@ class Game {
 
     moveCursor() {
         this.cursor.move();
+    }
+
+    swapBlocks() {
+        const cursorPos = this.cursor.pos;
+        
+
+        this.blocks.forEach((row, rowIdx) => {
+            row.forEach((block, colIdx) => {
+                if (block.pos[0] === cursorPos[0] && block.pos[1] === cursorPos[1]) {
+                    console.log(`Cursor: ${cursorPos}`)
+                    console.log(`Block1: ${block.pos}`)
+                    console.log(`Block2: ${this.blocks[rowIdx][colIdx + 1].pos}`)
+
+
+                    let oldPos = block.pos;
+                    block.pos = this.blocks[rowIdx][colIdx + 1].pos;
+                    this.blocks[rowIdx][colIdx + 1].pos = oldPos;
+
+                    let first = this.blocks[rowIdx][colIdx];
+                    this.blocks[rowIdx][colIdx] = this.blocks[rowIdx][colIdx + 1]
+                    this.blocks[rowIdx][colIdx + 1] = first
+
+                }
+            })
+        })
+
+
     }
 }
 
