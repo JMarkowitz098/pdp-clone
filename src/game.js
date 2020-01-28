@@ -1,4 +1,5 @@
-import Block from './block'
+import Block from './block';
+import Cursor from './cursor';
 
 class Game {
     constructor() {
@@ -7,18 +8,22 @@ class Game {
         this.DIM_Y = 700;
         this.NUM_START_ROWS = 4;
         this.NUM_COLUMNS = 6;
-        this.blocks = this.createSingleRow();
+        this.blocks = this.createAllRows();
+        this.cursor = new Cursor({pos: [78,560]});
     }
 
     createAllRows() {
-        blocks = []
+        let blocks = [];
+        let yPos = 690;
         for(let i = 0; i < this.NUM_START_ROWS; i++) {
-            blocks.push(this.createSingleRow())
+            blocks.push(this.createSingleRow(yPos));
+            yPos -= 65;
         }
+        return blocks
     }
 
-    createSingleRow(rowStart) {
-        let pos = [10, 690]
+    createSingleRow(rowStartPos) {
+        let pos = [10, rowStartPos]
         let blocks = []
         for(let i = 0; i < this.NUM_COLUMNS; i ++){
             let block = new Block({pos: [pos[0], pos[1]]})
@@ -33,15 +38,32 @@ class Game {
         ctx.fillStyle = "white";
         ctx.fillRect(0, 50, this.DIM_X, this.DIM_Y);
 
-        this.blocks.forEach(block => {
+        this.blocks.forEach(row => {
+            this.drawRow(row, ctx)
+        });
+        this.cursor.draw(ctx);
+    }
+
+    drawRow(blocks, ctx) {
+        blocks.forEach(block => {
             block.draw(ctx);
         });
     }
 
-    moveObjects() {
-        this.blocks.forEach(block => {
+    moveBlocks() {
+        this.blocks.forEach(row => {
+            this.moveRow(row);
+        });
+    }
+
+    moveRow(blocks) {
+        blocks.forEach(block => {
             block.move();
         });
+    }
+
+    moveCursor() {
+        this.cursor.move();
     }
 }
 
