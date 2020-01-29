@@ -28,6 +28,14 @@ class Block {
 
         this.pos = [x, y - this.vel];
     }
+
+    matches(otherBlock) {
+        return this.color === otherBlock.color;
+    }
+
+    isWhite() {
+        return this.color === "white"
+    }
 }
 
 export default Block;

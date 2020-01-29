@@ -1,14 +1,21 @@
 class MatchingBlocks {
-    constructor(blocks) {
-        this.numRows = blocks.length;
-        this.numColumns = blocks[0].length;
-        this.blocks = blocks
+    constructor(grid) {
+        this.grid = grid
+        this.blocks = grid.blocks
+        this.numRows = this.blocks.length;
+        this.numColumns = this.blocks[0].length;
+        this.matches = [];
     }
 
     createMatches() {
-        let matches = []
         this.blocks.forEach(row => {
-            
+            this.matches.push(...this.createMatchesFromSingleRow(row))
+        })
+
+        let cols = this.grid.transposeBlocks(this.blocks);
+
+        cols.forEach(row => {
+            this.matches.push(...this.createMatchesFromSingleRow(row))
         })
     }
 
@@ -16,22 +23,41 @@ class MatchingBlocks {
         let matchingBlocks = [];
         let matchesArr = []
         matchingBlocks.push(blocks[0]);
-        let colIdx = 1;
+        let block;
 
-        while (colIdx < blocks.length) {
-            if (matchingBlocks[0].color === blocks[colIdx].color) {
-                matchingBlocks.push(blocks[colIdx]);
+        for (let colIdx = 1; colIdx < blocks.length; colIdx ++) {
+            block = blocks[colIdx]
+
+            if (matchingBlocks[0].matches(block)) {
+                matchingBlocks.push(block);
+
+                //If match is for final 3 blocks
+                if (colIdx === blocks.length - 1 && this.actualMatch(matchingBlocks)){
+                    matchesArr.push(matchingBlocks)
+                }
             } else {
-                matchesArr.push(matchingBlocks)
-                matchingBlocks = [blocks[colIdx]]
+                if (this.actualMatch(matchingBlocks)) {
+                   matchesArr.push(matchingBlocks)
+                } 
+                matchingBlocks = [blocks[colIdx]];
             }
-            colIdx += 1;
         }
 
         return matchesArr;
     }
 
-    
+    actualMatch(matchingBlocks) {
+        return !matchingBlocks[0].isWhite() && matchingBlocks.length > 2
+    }
+
+    turnMatchesWhite() {
+        this.matches.forEach(blocks => {
+            blocks.forEach(block => block.color = "white")
+        })
+    }
 }
 
 export default MatchingBlocks
+
+//colIdx = 3
+// mB = [3]

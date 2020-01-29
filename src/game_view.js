@@ -22,14 +22,16 @@ class GameView {
     }
 
     step() {
-        //disabled for testing
-        this.game.moveGrid();
-        this.game.moveCursor();
+        // this.game.moveGrid();
+        // this.game.moveCursor();
         
         this.game.grid.removeEmptyRows();
         this.game.drawGrid(this.ctx);
         this.game.grid.haveBlocksFall();
-        this.game.grid.clearMatchingBlocks();
+
+        //Testing
+        this.game.createMatchingBlocks();
+
         this.game.grid.addNewRow();
 
         if (!this.gameOver()) {
@@ -61,7 +63,6 @@ class GameView {
         if (Object.keys(this.MOVES).includes(e.key)){
             cursor.changePos(move, this.game.DIM_X, this.game.DIM_Y)    
         } else if (e.key === " ") {
-
             this.game.grid.swapBlocks(cursor);
         } 
     }

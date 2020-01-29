@@ -1,5 +1,6 @@
 import Cursor from './cursor';
 import Grid from './grid'
+import MatchingBlocks from './matching_blocks';
 
 class Game {
     constructor() {
@@ -9,6 +10,8 @@ class Game {
         this.NUM_COLUMNS = 6;
         this.grid = new Grid(this.DIM_X, this.DIM_Y)
         this.cursor = new Cursor({pos: [100,600]});
+
+        this.createMatchingBlocks = this.createMatchingBlocks.bind(this)
     }
 
     drawGrid(ctx) {
@@ -42,6 +45,13 @@ class Game {
 
     moveCursor() {
         this.cursor.move();
+    }
+
+    createMatchingBlocks() {
+        const matchingBlocks = new MatchingBlocks(this.grid)
+        matchingBlocks.createMatches();
+        console.log(matchingBlocks.matches)
+        matchingBlocks.turnMatchesWhite()
     }
 
 }
