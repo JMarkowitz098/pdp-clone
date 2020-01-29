@@ -1,44 +1,48 @@
 import Block from './block';
 import Cursor from './cursor';
+import Grid from './grid'
+import * as GameUtil from './game_util'
 
 class Game {
     constructor() {
 
         this.DIM_X = 400;
         this.DIM_Y = 800;
-        this.NUM_START_ROWS = 4;
+        this.NUM_START_ROWS = 10;
         this.NUM_COLUMNS = 6;
-        this.blocks = this.createAllRows();
+        this.grid = new Grid(this.DIM_X, this.DIM_Y)
+        // this.blocks = this.createAllRows();
         this.cursor = new Cursor({pos: [100,600]});
+        this.clearMatchingBlocks = this.clearMatchingBlocks.bind(this)
     }
 
-    createAllRows() {
-        let blocks = [];
-        let yPos = 700;
-        for(let i = 0; i < this.NUM_START_ROWS; i++) {
-            blocks.push(this.createSingleRow(yPos));
-            yPos -= 50;
-        }
-        return blocks
-    }
+    // createAllRows() {
+    //     let blocks = [];
+    //     let yPos = 700;
+    //     for(let i = 0; i < this.NUM_START_ROWS; i++) {
+    //         blocks.push(this.createSingleRow(yPos));
+    //         yPos -= 50;
+    //     }
+    //     return blocks
+    // }
 
-    createSingleRow(rowStartPos) {
-        let pos = [0, rowStartPos]
-        let blocks = []
-        for(let i = 0; i < this.NUM_COLUMNS; i ++){
-            let block = new Block({pos: [pos[0], pos[1]]})
-            blocks.push(block);
-            pos[0] += 50;
-        }
-        return blocks;
-    } 
+    // createSingleRow(rowStartPos) {
+    //     let pos = [0, rowStartPos]
+    //     let blocks = []
+    //     for(let i = 0; i < this.NUM_COLUMNS; i ++){
+    //         let block = new Block({pos: [pos[0], pos[1]]})
+    //         blocks.push(block);
+    //         pos[0] += 50;
+    //     }
+    //     return blocks;
+    // } 
 
     draw(ctx) {
         ctx.clearRect(0, 0, this.DIM_X, this.DIM_Y);
         ctx.fillStyle = "white";
         ctx.fillRect(0, 50, this.DIM_X, this.DIM_Y);
 
-        this.blocks.forEach(row => {
+        this.grid.blocks.forEach(row => {
             this.drawRow(row, ctx)
         });
         this.cursor.draw(ctx);
@@ -66,32 +70,39 @@ class Game {
         this.cursor.move();
     }
 
-    swapBlocks() {
-        const cursorPos = this.cursor.pos;
+    // swapBlocks() {
+    //     const cursorPos = this.cursor.pos;
 
-        this.blocks.forEach((row, rowIdx) => {
-            row.forEach((block, colIdx) => {
-                if (block.pos[0] === cursorPos[0] && block.pos[1] === cursorPos[1]) {
-                    let nextBlock = this.blocks[rowIdx][colIdx + 1]
-                    this.swapBlockPositions(block, nextBlock)
-                    this.swapPosInBlocksArrHor(rowIdx, colIdx)
-                }
-            })
-        })
-    }
+    //     this.blocks.forEach((row, rowIdx) => {
+    //         row.forEach((block, colIdx) => {
+    //             if (block.pos[0] === cursorPos[0] && block.pos[1] === cursorPos[1]) {
+    //                 let nextBlock = this.blocks[rowIdx][colIdx + 1]
+    //                 this.swapBlockPositions(block, nextBlock)
+    //                 this.swapPosInBlocksArrHor(rowIdx, colIdx)
+    //             }
+    //         })
+    //     })
+    // }
 
-    swapBlockPositions(firstBlock, nextBlock) {
-        let firstBlockPos = firstBlock.pos;
-        firstBlock.pos = nextBlock.pos;
-        nextBlock.pos = firstBlockPos;
-    }
+    // swapBlockPositions(firstBlock, nextBlock) {
+    //     let firstBlockPos = firstBlock.pos;
+    //     firstBlock.pos = nextBlock.pos;
+    //     nextBlock.pos = firstBlockPos;
+    // }
 
-    swapPosInBlocksArrHor(rowIdx, colIdx) {
-        let first = this.blocks[rowIdx][colIdx];
-        this.blocks[rowIdx][colIdx] = this.blocks[rowIdx][colIdx + 1]
-        this.blocks[rowIdx][colIdx + 1] = first
-    }
+    // swapPosInBlocksArrHor(rowIdx, colIdx) {
+    //     let first = this.blocks[rowIdx][colIdx];
+    //     this.blocks[rowIdx][colIdx] = this.blocks[rowIdx][colIdx + 1]
+    //     this.blocks[rowIdx][colIdx + 1] = first
+    // }
 
+    // swapPosInBlocksArrVert(rowIdx, colIdx) {
+    //     let first = this.blocks[rowIdx][colIdx];
+    //     this.blocks[rowIdx][colIdx] = this.blocks[rowIdx - 1][colIdx]
+    //     this.blocks[rowIdx - 1][colIdx] = first
+    // }
+
+    //Clear Matching Blocks Stuff -------------------
     clearMatchingBlocks() {
         for (let rowIdx = 0; rowIdx < this.blocks.length; rowIdx ++){
             for (let colIdx = 0; colIdx < this.NUM_COLUMNS; colIdx ++) {
@@ -103,6 +114,7 @@ class Game {
                 }
             }
         }
+        // GameUtil.clearMatchingBlocks(this)
     }
 
     clearMatchingRow(rowIdx, colIdx) {
@@ -125,7 +137,7 @@ class Game {
         let matchingBlocks = [];
         matchingBlocks.push(this.blocks[rowIdx][colIdx])
         if (type === "row"){
-            while(this.nextBlockExists(rowIdx, colIdx,type) && this.nextBlockMatched(rowIdx, colIdx, type)) {
+            while(this.onBottomRow(rowIdx, colIdx) && this.nextBlockExists(rowIdx, colIdx,type) && this.nextBlockMatched(rowIdx, colIdx, type)) {
                 colIdx += 1;
                 matchingBlocks.push(this.blocks[rowIdx][colIdx]);
             }
@@ -178,31 +190,36 @@ class Game {
         }
     }
 
+    onBottomRow(rowIdx, colIdx) { //Rignt now only works if block falls from right
+            if (rowIdx > 0 && this.blocks[rowIdx - 1][colIdx].color === "white" ) {
+                return false;
+            } else {
+                return true
+            }
+
+    }
+
     turnBlocksWhite(matchingBlocks) {
         matchingBlocks.forEach(block => {
             block.color = "white"
         })
     }
 
-    haveBlocksFall() {
-        for (let rowIdx = 1; rowIdx < this.blocks.length; rowIdx++) {
-            for (let colIdx = 0; colIdx < this.blocks[0].length; colIdx++) {
-                let topBlock = this.blocks[rowIdx][colIdx];
-                let bottomBlock = this.blocks[rowIdx - 1][colIdx];
+    //End clear matching blocks stuff -------------------
 
-                if(bottomBlock.color === "white" && topBlock.color !== "white") {
-                    this.swapBlockPositions(topBlock, bottomBlock)
-                    this.swapPosInBlocksArrVert(rowIdx, colIdx);
-                }
-            }
-        }
-    }
+    // haveBlocksFall() {
+    //     for (let rowIdx = 1; rowIdx < this.blocks.length; rowIdx++) {
+    //         for (let colIdx = 0; colIdx < this.blocks[0].length; colIdx++) {
+    //             let topBlock = this.blocks[rowIdx][colIdx];
+    //             let bottomBlock = this.blocks[rowIdx - 1][colIdx];
 
-    swapPosInBlocksArrVert(rowIdx, colIdx) {
-        let first = this.blocks[rowIdx][colIdx];
-        this.blocks[rowIdx][colIdx] = this.blocks[rowIdx - 1][colIdx]
-        this.blocks[rowIdx - 1][colIdx] = first
-    }
+    //             if(bottomBlock.color === "white" && topBlock.color !== "white") {
+    //                 this.swapBlockPositions(topBlock, bottomBlock)
+    //                 this.swapPosInBlocksArrVert(rowIdx, colIdx);
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 export default Game;

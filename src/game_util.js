@@ -1,52 +1,53 @@
-export const clearMatchingBlocks = () => {
-    for (let rowIdx = 0; rowIdx < this.blocks.length; rowIdx++) {
-        for (let colIdx = 0; colIdx < this.NUM_COLUMNS; colIdx++) {
-            if (colIdx < this.blocks[rowIdx].length - 2) {
-                this.clearMatchingRow(rowIdx, colIdx)
+export const clearMatchingBlocks = (ctx) => {
+    for (let rowIdx = 0; rowIdx < ctx.blocks.length; rowIdx++) {
+        for (let colIdx = 0; colIdx < ctx.NUM_COLUMNS; colIdx++) {
+            if (colIdx < ctx.blocks[rowIdx].length - 2) {
+                clearMatchingRow(rowIdx, colIdx)
             }
-            if (rowIdx < this.blocks.length - 2) {
-                this.clearMatchingCol(rowIdx, colIdx)
+            if (rowIdx < ctx.blocks.length - 2) {
+                clearMatchingCol(rowIdx, colIdx)
             }
         }
     }
 }
 
 const clearMatchingRow = (rowIdx, colIdx) => {
-    let matchingBlocks = this.createMatchingBlocksArr(rowIdx, colIdx, 'row');
+    let matchingBlocks = createMatchingBlocksArr(rowIdx, colIdx, 'row');
 
-    if (matchingBlocks.length > 2 && this.colorsMatched(matchingBlocks)) {
-        this.turnBlocksWhite(matchingBlocks)
+    if (matchingBlocks.length > 2 && colorsMatched(matchingBlocks)) {
+        turnBlocksWhite(matchingBlocks)
     }
 }
 
 const clearMatchingCol = (rowIdx, colIdx) => {
-    let matchingBlocks = this.createMatchingBlocksArr(rowIdx, colIdx, 'col');
+    let matchingBlocks = createMatchingBlocksArr(rowIdx, colIdx, 'col');
 
-    if (matchingBlocks.length > 2 && this.colorsMatched(matchingBlocks)) {
-        this.turnBlocksWhite(matchingBlocks)
+    if (matchingBlocks.length > 2 && colorsMatched(matchingBlocks)) {
+        turnBlocksWhite(matchingBlocks)
     }
 }
 
 const createMatchingBlocksArr = (rowIdx, colIdx, type) => {
+    debugger
     let matchingBlocks = [];
-    matchingBlocks.push(this.blocks[rowIdx][colIdx])
+    matchingBlocks.push(ctx.blocks[rowIdx][colIdx])
     if (type === "row") {
-        while (this.nextBlockExists(rowIdx, colIdx, type) && this.nextBlockMatched(rowIdx, colIdx, type)) {
+        while(nextBlockExists(rowIdx, colIdx, type) && nextBlockMatched(rowIdx, colIdx, type)) {
             colIdx += 1;
-            matchingBlocks.push(this.blocks[rowIdx][colIdx]);
+            matchingBlocks.push(ctx.blocks[rowIdx][colIdx]);
         }
     } else {
-        while (this.nextBlockExists(rowIdx, colIdx, type) && this.nextBlockMatched(rowIdx, colIdx, type)) {
+        while(nextBlockExists(rowIdx, colIdx, type) && nextBlockMatched(rowIdx, colIdx, type)) {
             rowIdx += 1;
-            matchingBlocks.push(this.blocks[rowIdx][colIdx]);
+            matchingBlocks.push(ctx.blocks[rowIdx][colIdx]);
         }
     }
     return matchingBlocks;
 }
 
 const nextBlockMatched = (rowIdx, colIdx, type) => {
-    let block = this.blocks[rowIdx][colIdx]
-    let nextBlock = this.nextBlock(rowIdx, colIdx, type);
+    let block = ctx.blocks[rowIdx][colIdx]
+    let nextBlock = nextBlock(rowIdx, colIdx, type);
 
     if (block.color === nextBlock.color) {
         return true;
@@ -57,16 +58,16 @@ const nextBlockMatched = (rowIdx, colIdx, type) => {
 
 const nextBlock = (rowIdx, colIdx, type) => {
     if (type === 'row') {
-        return this.blocks[rowIdx][colIdx + 1]
+        return ctx.blocks[rowIdx][colIdx + 1]
     } else {
-        return this.blocks[rowIdx + 1][colIdx]
+        return ctx.blocks[rowIdx + 1][colIdx]
     }
 }
 
 const nextBlockExists = (rowIdx, colIdx, type) => {
-    if (type === "row" && colIdx + 1 > this.NUM_COLUMNS - 1) {
+    if (type === "row" && colIdx + 1 > ctx.NUM_COLUMNS - 1) {
         return false;
-    } else if (type === "col" && rowIdx + 1 > this.blocks.length - 1) {
+    } else if (type === "col" && rowIdx + 1 > ctx.blocks.length - 1) {
         return false
     } else {
         return true;

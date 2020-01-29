@@ -24,8 +24,8 @@ class GameView {
         // this.game.moveCursor();
 
         this.game.draw(this.ctx);
-        this.game.haveBlocksFall();
-        this.game.clearMatchingBlocks();
+        this.game.grid.haveBlocksFall();
+        // this.game.clearMatchingBlocks();
 
         requestAnimationFrame(this.step)
     }
@@ -35,9 +35,9 @@ class GameView {
         const move = this.MOVES[e.key];
 
         if (Object.keys(this.MOVES).includes(e.key)){
-            cursor.changePos(move)    
+            cursor.changePos(move, this.game.DIM_X, this.game.DIM_Y)    
         } else if (e.key === " ") {
-            this.game.swapBlocks();
+            this.game.grid.swapBlocks(cursor);
         } 
     }
 
