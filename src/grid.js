@@ -4,57 +4,91 @@ class Grid {
     constructor(dimX, dimY) {
         this.DIM_X = 400;
         this.DIM_Y = 800;
-        this.NUM_START_ROWS = 10;
+        this.NUM_START_ROWS = 5;
         this.NUM_COLUMNS = 6;
         this.blocks = this.createAllRows();
 
         this.turnBlocksWhite = this.turnBlocksWhite.bind(this)
         this.removeEmptyRows = this.removeEmptyRows.bind(this)
-
     }
 
     createAllRows() {
         let blocks = [];
         let yPos = 700;
         for (let i = 0; i < this.NUM_START_ROWS; i++) {
-            blocks.push(this.createSingleRow(yPos));
+            let newRow = this.createSingleRow(yPos);
+            blocks.push(newRow);
             yPos -= 50;
         }
-        return blocks
+
+        if (this.anyColMatch(blocks)) {
+            return this.createAllRows()
+        } else {
+            return blocks;
+        }
     }
 
     createSingleRow(rowStartPos) {
-        
         let pos = [0, rowStartPos]
         let blocks = []
+
         for (let i = 0; i < this.NUM_COLUMNS; i++) {
             let block = new Block({ pos: [pos[0], pos[1]] })
             blocks.push(block);
             pos[0] += 50;
         }
 
-        if (!this.anyMatch(blocks)){
-            return blocks;
+        if (this.anyMatch(blocks)){
+            return this.createSingleRow(rowStartPos);
         } else {
-            return this.createSingleRow(rowStartPos)
+            return blocks
         }
     } 
 
-    anyMatch(blocks) {
-        let matchingBlocks = []
-        matchingBlocks.push(blocks[0])
-        let colIdx = 1
-        while (colIdx < this.NUM_COLUMNS - 2 ) {
-            if(matchingBlocks[0].color === matchingBlocks[colIdx])
-            matchingBlocks.push(this.blocks[colIdx]);
+    anyMatch(blocks, arrLength = this.NUM_COLUMNS) {
+        let matchingBlocks = [];
+        matchingBlocks.push(blocks[0]);
+        let colIdx = 1;
+
+        while (colIdx < arrLength) {
+            if (matchingBlocks.length > 2) {
+                break;
+            } else if (matchingBlocks[0].color === blocks[colIdx].color) {
+                matchingBlocks.push(blocks[colIdx]);
+            } else {
+                matchingBlocks = [blocks[colIdx]]
+            }
             colIdx += 1;
         }
 
-        if(matchingBlocks.length > 2) {
-            return true;
-        } else {
-            return false;
-        }
+        return (matchingBlocks.length > 2)
+    }
+
+    anyColMatch(blocks) {
+        blocks = this.transposeBlocks(blocks);
+        let bool = false;
+
+        blocks.forEach(row => {
+            if(this.anyMatch(row, row.length)) {
+                bool = true;
+            }
+        })
+        return bool;
+    }
+
+    transposeBlocks(blocks) {
+        const  transposed = [];
+        for (let i = 0; i < blocks[0].length; i++) {
+            transposed.push([]);
+        };
+
+        for (let i = 0; i < blocks.length; i++) {
+            for (let j = 0; j < blocks[0].length; j++) {
+                transposed[j].push(blocks[i][j]);
+            };
+        };
+
+        return transposed;
     }
 
     addNewRow() {
@@ -143,7 +177,7 @@ class Grid {
                     this.clearMatchingRow(rowIdx, colIdx)
                 }
                 if (rowIdx < this.blocks.length - 2) {
-                    // this.clearMatchingCol(rowIdx, colIdx)
+                    this.clearMatchingCol(rowIdx, colIdx)
                 }
             }
         }
