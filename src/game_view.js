@@ -2,6 +2,7 @@ class GameView {
     constructor(game, ctx) {
         this.ctx = ctx;
         this.game = game;
+        this.grid = this.game.grid;
         this.step = this.step.bind(this)
         this.MOVES = {
             w: [0, -50],
@@ -15,19 +16,42 @@ class GameView {
 
     start() {
         this.bindKeyHandlers();
+        
         requestAnimationFrame(this.step)
+        
     }
 
     step() {
         //disabled for testing
-        // this.game.moveBlocks();
-        // this.game.moveCursor();
-
-        this.game.draw(this.ctx);
+        this.game.moveGrid();
+        this.game.moveCursor();
+        
+        this.game.grid.removeEmptyRows();
+        this.game.drawGrid(this.ctx);
         this.game.grid.haveBlocksFall();
-        // this.game.clearMatchingBlocks();
+        this.game.grid.clearMatchingBlocks();
+        this.game.grid.addNewRow();
 
-        requestAnimationFrame(this.step)
+        if (!this.gameOver()) {
+            requestAnimationFrame(this.step)
+        }
+    }
+
+    gameOver() {
+        if (this.anyBlockAtTop()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    anyBlockAtTop() {
+        let bool = false;
+        let numRows = this.grid.blocks.length;
+        this.grid.blocks[numRows - 1].forEach(block => {
+            if (block.pos[1] <= 50) bool = true;
+        })
+        return bool;
     }
 
     onKeyDown(e) {
@@ -37,6 +61,7 @@ class GameView {
         if (Object.keys(this.MOVES).includes(e.key)){
             cursor.changePos(move, this.game.DIM_X, this.game.DIM_Y)    
         } else if (e.key === " ") {
+
             this.game.grid.swapBlocks(cursor);
         } 
     }
@@ -44,18 +69,6 @@ class GameView {
     bindKeyHandlers() {
         document.addEventListener("keydown", this.onKeyDown)
     };
-
-    //Using keymaster
-    // bindKeyHandlers() {
-    //     const cursor = this.game.cursor;
-    //     document.addEventListener("keydown", this.onKeyDown)
-
-    //     Object.keys(this.MOVES).forEach((k) => {
-    //         const move = this.MOVES[k];
-    //         key(k, () => cursor.changePos(move));
-    //     });
-    // };
-
 
 }
 

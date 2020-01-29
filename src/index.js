@@ -11,5 +11,4 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameView = new GameView(game, ctx)
 
     gameView.start();
-    // document.addEventListener("keydown", () => console.log('banana'))
 });

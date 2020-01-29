@@ -7,6 +7,10 @@ class Grid {
         this.NUM_START_ROWS = 10;
         this.NUM_COLUMNS = 6;
         this.blocks = this.createAllRows();
+
+        this.turnBlocksWhite = this.turnBlocksWhite.bind(this)
+        this.removeEmptyRows = this.removeEmptyRows.bind(this)
+
     }
 
     createAllRows() {
@@ -20,6 +24,7 @@ class Grid {
     }
 
     createSingleRow(rowStartPos) {
+        
         let pos = [0, rowStartPos]
         let blocks = []
         for (let i = 0; i < this.NUM_COLUMNS; i++) {
@@ -27,8 +32,62 @@ class Grid {
             blocks.push(block);
             pos[0] += 50;
         }
-        return blocks;
+
+        if (!this.anyMatch(blocks)){
+            return blocks;
+        } else {
+            return this.createSingleRow(rowStartPos)
+        }
     } 
+
+    anyMatch(blocks) {
+        let matchingBlocks = []
+        matchingBlocks.push(blocks[0])
+        let colIdx = 1
+        while (colIdx < this.NUM_COLUMNS - 2 ) {
+            if(matchingBlocks[0].color === matchingBlocks[colIdx])
+            matchingBlocks.push(this.blocks[colIdx]);
+            colIdx += 1;
+        }
+
+        if(matchingBlocks.length > 2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    addNewRow() {
+        if (this.shouldCreateNewRow()) {
+            this.blocks.unshift(this.createSingleRow(700))
+        }
+    }
+
+    shouldCreateNewRow() {
+        let bool = false;
+        this.blocks[0].forEach(block => {
+            if (block.pos[1] <= 650) bool = true;
+        })
+        return bool;
+    }
+
+    removeEmptyRows(){
+        this.blocks.forEach(row => {
+            if(this.rowIsEmpty(row)) {
+                this.blocks.splice(this.blocks.indexOf(row), 1);
+            }
+        })
+    }
+    
+    rowIsEmpty(row){
+        let bool = true
+        row.forEach(block => {
+            if (block.color !== "white"){
+                bool =  false;
+            }
+        })
+        return bool;
+    }
 
     swapBlocks(cursor) {
         const cursorPos = cursor.pos;
@@ -74,6 +133,117 @@ class Grid {
                 }
             }
         }
+    }
+
+    //Clear Matching Blocks Stuff -------------------
+    clearMatchingBlocks() {
+        for (let rowIdx = 0; rowIdx < this.blocks.length; rowIdx++) {
+            for (let colIdx = 0; colIdx < this.NUM_COLUMNS; colIdx++) {
+                if (colIdx < this.blocks[rowIdx].length - 2) {
+                    this.clearMatchingRow(rowIdx, colIdx)
+                }
+                if (rowIdx < this.blocks.length - 2) {
+                    // this.clearMatchingCol(rowIdx, colIdx)
+                }
+            }
+        }
+    }
+
+    clearMatchingRow(rowIdx, colIdx) {
+        let matchingBlocks = this.createMatchingBlocksArr(rowIdx, colIdx, 'row');
+        if (matchingBlocks.length > 2 && this.colorsMatched(matchingBlocks)) {
+            this.turnBlocksWhite(matchingBlocks)
+        }
+    }
+
+    // matchingRow() {
+    //     if (matchingBlocks.length > 2 
+    //     && this.colorsMatched(matchingBlocks)
+    //     && this.onBottomRow(matchingBlocks, rowIdx)) {
+    //         return true
+    //     } else {
+    //         return false
+    //     }
+    // }
+
+    clearMatchingCol(rowIdx, colIdx) {
+        let matchingBlocks = this.createMatchingBlocksArr(rowIdx, colIdx, 'col');
+
+        if (matchingBlocks.length > 2 && this.colorsMatched(matchingBlocks)) {
+            this.turnBlocksWhite(matchingBlocks)
+        }
+    }
+
+    createMatchingBlocksArr(rowIdx, colIdx, type) {
+        let matchingBlocks = [];
+        matchingBlocks.push(this.blocks[rowIdx][colIdx])
+        if (type === "row") {
+            while (this.nextBlockExists(rowIdx, colIdx, type) && this.nextBlockMatched(rowIdx, colIdx, type)) {
+                colIdx += 1;
+                matchingBlocks.push(this.blocks[rowIdx][colIdx]);
+            }
+        } else {
+            while (this.nextBlockExists(rowIdx, colIdx, type) && this.nextBlockMatched(rowIdx, colIdx, type)) {
+                rowIdx += 1;
+                matchingBlocks.push(this.blocks[rowIdx][colIdx]);
+            }
+        }
+        return matchingBlocks;
+    }
+
+    nextBlockMatched(rowIdx, colIdx, type) {
+        let block = this.blocks[rowIdx][colIdx]
+        let nextBlock = this.nextBlock(rowIdx, colIdx, type);
+
+        if (block.color === nextBlock.color) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    nextBlock(rowIdx, colIdx, type) {
+        if (type === 'row') {
+            return this.blocks[rowIdx][colIdx + 1]
+        } else {
+            return this.blocks[rowIdx + 1][colIdx]
+        }
+    }
+
+    nextBlockExists(rowIdx, colIdx, type) {
+        if (type === "row" && colIdx + 1 > this.NUM_COLUMNS - 1) {
+            return false;
+        } else if (type === "col" && rowIdx + 1 > this.blocks.length - 1) {
+            return false
+        } else {
+            return true;
+        }
+    }
+
+    colorsMatched(matchingBlocks) {
+        if (matchingBlocks[0].color === matchingBlocks[1].color
+            && matchingBlocks[0].color === matchingBlocks[2].color
+            && matchingBlocks[0].color !== "white") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    onBottomRow(matchingBlocks, rowIdx) { //Rignt now only works if block falls from right
+        if (rowIdx === 0) return true;
+        matchingBlocks.forEach((block, colIdx) => {
+            if (this.blocks[rowIdx - 1][colIdx].color === "white") {
+                return false;
+            }
+        })
+        return true;
+    }
+
+    turnBlocksWhite(matchingBlocks) {
+        matchingBlocks.forEach(block => {
+            block.color = "white"
+        })
     }
 }
 

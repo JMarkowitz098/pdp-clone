@@ -1,7 +1,7 @@
 class Block {
     constructor(options) {
         this.pos = options.pos;
-        this.vel = 2;
+        this.vel = .5;
         this.color = this.randColor();
         this.size = 50;
     }
