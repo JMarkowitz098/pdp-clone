@@ -4,7 +4,7 @@ class Grid {
     constructor(dimX, dimY) {
         this.DIM_X = 400;
         this.DIM_Y = 800;
-        this.NUM_START_ROWS = 5;
+        this.NUM_START_ROWS = 3;
         this.NUM_COLUMNS = 6;
         this.blocks = this.createAllRows();
 

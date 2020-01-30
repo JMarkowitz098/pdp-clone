@@ -8,7 +8,17 @@ class Block {
     }
 
     randColor() {
-        const COLORS = ["red", "yellow", "green", "blue"]
+        let tan = "rgb(237, 201, 159)";
+        let brightBlue = "rgb(2, 239, 238)";
+        let blue = "rgb(4, 0, 248)";
+        let darkestBlue = "rgb(1, 1, 124)";
+        let darkBlue = "rgb(0, 1, 203)";
+        let red = "rgb(221, 81, 70)";
+        let green = "rgb(83, 181, 127)";
+        let blonde = "rgb(225,175,110)"
+        let white = "rgb(250,244,244)"
+
+        const COLORS = [red, brightBlue, green, darkestBlue, blue]
         let color = COLORS[Math.floor(Math.random() * COLORS.length)];
         return color;
     }
@@ -18,8 +28,8 @@ class Block {
         ctx.fillStyle = this.color;
         let x = this.canvPos[0];
         let y = this.canvPos[1];
-
-        ctx.fillRect(x, y, this.size, this.size);
+        // if (!this.isWhite()) ctx.strokeRect(x, y, this.size, this.size);
+        if (!this.isWhite()) ctx.fillRect(x, y, this.size, this.size);
 
     }
 

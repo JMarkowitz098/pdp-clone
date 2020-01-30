@@ -18,8 +18,12 @@ class Cursor {
     move() {
         let x = this.pos[0];
         let y = this.pos[1];
+        if (this.pos[1] <= 50) {
+            this.pos = [x, y + 50];
+        } else {
 
-        this.pos = [x, y - this.vel];
+            this.pos = [x, y - this.vel];
+        }
     }
 
     changePos(dir, dimX, dimY) {
@@ -36,7 +40,7 @@ class Cursor {
     }
 
     validMove(data) {
-        if (data.x > data.dimX - 200 || data.x < 0) {
+        if (data.x > data.dimX - 50 || data.x < 0) {
             return false;
         } else if (data.y > data.dimY - 100 || data.y < 50) {
             return false;

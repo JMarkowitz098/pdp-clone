@@ -1,17 +1,8 @@
-/* Error: Undefined variable.
- *   ,
- * 2 |     background-color: $grey;
- *   |                       ^^^^^
- *   '
- *   dist/stylesheets/scss/components/canvas.scss 2:23  root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Undefined variable.\a   \2577 \a 2 \2502      background-color: $grey;\a   \2502                        ^^^^^\a   \2575 \a   dist/stylesheets/scss/components/canvas.scss 2:23  root stylesheet";
+#game-canvas {
+  border: solid 5px black;
+  background-image: url("../../mm11-ost-cover-750x1334.jpg");
+  background-size: cover;
+  background-position: center -7em;
 }
+
+/*# sourceMappingURL=canvas.css.map */

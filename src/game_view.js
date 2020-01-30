@@ -1,3 +1,5 @@
+import Score from './score'
+
 class GameView {
     constructor(game, ctx) {
         this.ctx = ctx;
@@ -10,20 +12,20 @@ class GameView {
             s: [0, 50],
             d: [50, 0],
         }
-
+        this.score = new Score();
         this.onKeyDown = this.onKeyDown.bind(this)
     }
 
     start() {
         this.bindKeyHandlers();
-
         requestAnimationFrame(this.step)
-
     }
 
     step() {
+        this.score.displayScore();
+
         this.game.moveGrid();
-        this.game.moveCursor();
+        this.game.moveCursor({});
 
         this.game.grid.removeEmptyRows();
         this.game.removeMatchingBlocks();
