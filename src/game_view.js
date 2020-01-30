@@ -16,23 +16,20 @@ class GameView {
 
     start() {
         this.bindKeyHandlers();
-        
+
         requestAnimationFrame(this.step)
-        
+
     }
 
     step() {
-        // this.game.moveGrid();
-        // this.game.moveCursor();
-        
+        this.game.moveGrid();
+        this.game.moveCursor();
+
         this.game.grid.removeEmptyRows();
-        this.game.drawGrid(this.ctx);
+        this.game.removeMatchingBlocks();
         this.game.grid.haveBlocksFall();
-
-        //Testing
-        this.game.createMatchingBlocks();
-
         this.game.grid.addNewRow();
+        this.game.drawGrid(this.ctx);
 
         if (!this.gameOver()) {
             requestAnimationFrame(this.step)
@@ -40,18 +37,14 @@ class GameView {
     }
 
     gameOver() {
-        if (this.anyBlockAtTop()) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.anyBlockAtTop()
     }
 
     anyBlockAtTop() {
         let bool = false;
         let numRows = this.grid.blocks.length;
         this.grid.blocks[numRows - 1].forEach(block => {
-            if (block.pos[1] <= 50) bool = true;
+            if (block.canvPos[1] <= 50) bool = true;
         })
         return bool;
     }
@@ -60,11 +53,11 @@ class GameView {
         const cursor = this.game.cursor;
         const move = this.MOVES[e.key];
 
-        if (Object.keys(this.MOVES).includes(e.key)){
-            cursor.changePos(move, this.game.DIM_X, this.game.DIM_Y)    
+        if (Object.keys(this.MOVES).includes(e.key)) {
+            cursor.changePos(move, this.game.DIM_X, this.game.DIM_Y)
         } else if (e.key === " ") {
             this.game.grid.swapBlocks(cursor);
-        } 
+        }
     }
 
     bindKeyHandlers() {

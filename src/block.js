@@ -1,8 +1,9 @@
 class Block {
     constructor(options) {
-        this.pos = options.pos;
+        this.canvPos = options.canvPos;
+        this.gridPos = options.gridPos;
         this.vel = .5;
-        this.color = this.randColor();
+        this.color = options.color || this.randColor();
         this.size = 50;
     }
 
@@ -15,18 +16,18 @@ class Block {
     draw(ctx) {
 
         ctx.fillStyle = this.color;
-        let x = this.pos[0];
-        let y = this.pos[1];
+        let x = this.canvPos[0];
+        let y = this.canvPos[1];
 
         ctx.fillRect(x, y, this.size, this.size);
 
     }
 
     move() {
-        let x = this.pos[0];
-        let y = this.pos[1];
+        let x = this.canvPos[0];
+        let y = this.canvPos[1];
 
-        this.pos = [x, y - this.vel];
+        this.canvPos = [x, y - this.vel];
     }
 
     matches(otherBlock) {
@@ -35,6 +36,26 @@ class Block {
 
     isWhite() {
         return this.color === "white"
+    }
+
+    swapBlock(otherBlock, grid) {
+        let temp = new Block({
+            canvPos: this.canvPos,
+            gridPos: this.gridPos,
+            color: this.color
+        });
+
+        let gridRow = this.gridPos[0]
+        let gridCol = this.gridPos[1]
+        let newRow = otherBlock.gridPos[0]
+        let newCol = otherBlock.gridPos[1];
+
+        [grid.blocks[gridRow][gridCol], grid.blocks[newRow][newCol]] = [grid.blocks[newRow][newCol], grid.blocks[gridRow][gridCol]]
+        this.canvPos = otherBlock.canvPos;
+        this.gridPos = otherBlock.gridPos;
+        otherBlock.canvPos = temp.canvPos;
+        otherBlock.gridPos = temp.gridPos;
+
     }
 }
 

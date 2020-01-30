@@ -13,7 +13,6 @@ class MatchingBlocks {
         })
 
         let cols = this.grid.transposeBlocks(this.blocks);
-
         cols.forEach(row => {
             this.matches.push(...this.createMatchesFromSingleRow(row))
         })
@@ -52,12 +51,26 @@ class MatchingBlocks {
 
     turnMatchesWhite() {
         this.matches.forEach(blocks => {
-            blocks.forEach(block => block.color = "white")
+            if (this.blocksOnGround(blocks)){
+                blocks.forEach(block => block.color = "white")
+            }
         })
+    }
+
+    blocksOnGround(blocks) {
+        let bool = true;
+        
+        blocks.forEach(block => {
+            let blockUnder;
+            if(block.gridPos[0] > 0){
+                blockUnder = this.grid.blocks[block.gridPos[0] - 1][block.gridPos[1]]
+            }
+            if (blockUnder && blockUnder.isWhite()) {
+                bool = false;
+            }
+        })
+        return bool;
     }
 }
 
 export default MatchingBlocks
-
-//colIdx = 3
-// mB = [3]
