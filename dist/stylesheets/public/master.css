@@ -133,5 +133,17 @@ table {
   padding: 5px;
   width: 8em;
 }
+#gameover-container button {
+  font-family: "Orbitron", sans-serif;
+  font-size: 30px;
+  text-align: center;
+  margin: 5px;
+  margin-top: 20px;
+  padding: 5px;
+  width: 8em;
+  background-color: #01017c;
+  color: #53b57f;
+  border: none;
+}
 
 /*# sourceMappingURL=master.css.map */

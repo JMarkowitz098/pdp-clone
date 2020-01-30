@@ -22,11 +22,16 @@
         width: 8em;
     }
 
-    // p {
-    //     text-align: center;
-    //     margin: 5px;
-    //     margin-top: 20px;
-    //     padding: 5px;
-    //     width: 8em;
-    // }
+    button {
+        font-family: $orbitron;
+        font-size: 30px;
+        text-align: center;
+        margin: 5px;
+        margin-top: 20px;
+        padding: 5px;
+        width: 8em;
+        background-color: $darkest-blue;
+        color: $green;
+        border: none;
+    }
 }

@@ -40,7 +40,7 @@ class Cursor {
     }
 
     validMove(data) {
-        if (data.x > data.dimX - 50 || data.x < 0) {
+        if (data.x > data.dimX - 200 || data.x < 0) {
             return false;
         } else if (data.y > data.dimY - 100 || data.y < 50) {
             return false;

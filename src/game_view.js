@@ -1,4 +1,5 @@
 import Score from './score'
+import Gameover from './gameover'
 
 class GameView {
     constructor(game, ctx) {
@@ -19,13 +20,14 @@ class GameView {
     start() {
         this.bindKeyHandlers();
         requestAnimationFrame(this.step)
+        
     }
 
     step() {
         this.score.displayScore();
 
         this.game.moveGrid();
-        this.game.moveCursor({});
+        this.game.moveCursor();
 
         this.game.grid.removeEmptyRows();
         this.game.removeMatchingBlocks();
@@ -35,6 +37,11 @@ class GameView {
 
         if (!this.gameOver()) {
             requestAnimationFrame(this.step)
+        }
+
+        if (this.gameOver()) {
+            let go = new Gameover;
+            go.initializeGameOver()
         }
     }
 
