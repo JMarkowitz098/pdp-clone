@@ -1,0 +1,17 @@
+@import '../base/variables';
+
+#header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 3em;
+    background-color: $darkest-blue;
+    margin-bottom: 10px;
+    font-size: 20px;
+    
+    a {
+        color: white;
+        text-decoration: none;
+        
+    }
+}

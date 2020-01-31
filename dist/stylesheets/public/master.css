@@ -57,8 +57,14 @@ table {
 
 #body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   background-color: #0400f8;
+}
+
+#header-project-container {
+  display: flex;
+  justify-content: center;
 }
 
 #score-container {
@@ -144,6 +150,20 @@ table {
   background-color: #01017c;
   color: #53b57f;
   border: none;
+}
+
+#header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 3em;
+  background-color: #01017c;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+#header a {
+  color: white;
+  text-decoration: none;
 }
 
 /*# sourceMappingURL=master.css.map */

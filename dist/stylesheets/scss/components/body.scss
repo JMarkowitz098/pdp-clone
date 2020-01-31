@@ -1,5 +1,12 @@
 #body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     background-color: $blue;
+}
+
+#header-project-container {
+    display: flex;
+    justify-content: center;
+
 }

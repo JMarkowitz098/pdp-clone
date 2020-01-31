@@ -11,28 +11,34 @@
     <title>PDP-Clone</title>
 </head>
 <body id="body">
-    <div id="left-container">
-        <div id="controls-container">
-            <h3>Controls</h3>  
-            <p>W: Up</p>
-            <p>A: Left</p>
-            <p>D: Right</p>
-            <p>S: Down</p>
-            <p>Space Bar: Swap Blocks</p>
+    <span id="header">
+        <!-- <a href=#>Profile</a> -->
+        <a href="https://github.com/JMarkowitz098/pdp-clone">Git Hub</a>
+        <a href="https://www.linkedin.com/in/jmarkowitz098/">Linked In</a>
+    </span>
+    <div id="header-project-container">
+        <div id="left-container">
+            <div id="controls-container">
+                <h3>Controls</h3>  
+                <p>W: Up</p>
+                <p>A: Left</p>
+                <p>D: Right</p>
+                <p>S: Down</p>
+                <p>Space Bar: Swap Blocks</p>
+            </div>
+        </div>
+        <canvas id="game-canvas" width="300" height="800" ></canvas>
+        <div id="right-container">
+            <div id="instructions-container">
+                <h3>Instructions</h3>
+                <p>Use the cursor to switch block positions.</p>
+                <p>Get a match of 3 or more blocks of the same color to clear them away.</p>
+            </div>
+            <div id="gameover-container">
+                <h3>Game Over</h3>
+                <button id="gameover-button">Play Again</button>
+            </div>
         </div>
     </div>
-    <canvas id="game-canvas" width="300" height="800" ></canvas>
-    <div id="right-container">
-        <div id="instructions-container">
-            <h3>Instructions</h3>
-            <p>Use the cursor to switch block positions.</p>
-            <p>Get a match of 3 or more blocks of the same color to clear them away.</p>
-        </div>
-        <div id="gameover-container">
-            <h3>Game Over</h3>
-            <button id="gameover-button">Play Again</button>
-        </div>
-    </div>
-
 </body>
 </html>
