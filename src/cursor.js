@@ -1,7 +1,7 @@
 class Cursor {
     constructor(options) {
         this.pos = options.pos;
-        this.vel = .5;
+        this.vel = options.vel;
         this.color = "black";
         this.size = 50;
     }

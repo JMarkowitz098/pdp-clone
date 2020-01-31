@@ -20,7 +20,7 @@ class GameView {
     start() {
         this.bindKeyHandlers();
         requestAnimationFrame(this.step)
-        
+
     }
 
     step() {

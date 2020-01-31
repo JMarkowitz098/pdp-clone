@@ -6,8 +6,9 @@ class Game {
     constructor() {
         this.DIM_X = 400;
         this.DIM_Y = 800;
-        this.grid = new Grid(this.DIM_X, this.DIM_Y)
-        this.cursor = new Cursor({pos: [100,600]});
+        this.VEL = .5
+        this.grid = new Grid(this.DIM_X, this.DIM_Y, this.VEL)
+        this.cursor = new Cursor({pos: [100,600], vel: this.VEL});
     }
 
     drawGrid(ctx) {

@@ -1,11 +1,12 @@
 import Block from './block';
 
 class Grid {
-    constructor(dimX, dimY) {
+    constructor(dimX, dimY, vel) {
         this.DIM_X = 400;
         this.DIM_Y = 800;
         this.NUM_START_ROWS = 3;
         this.NUM_COLUMNS = 6;
+        this.VEL = vel;
         this.blocks = this.createAllRows();
 
     }
@@ -33,7 +34,8 @@ class Grid {
         for (let i = 0; i < this.NUM_COLUMNS; i++) {
             let block = new Block({ 
                 canvPos: [canvPos[0], canvPos[1]],
-                gridPos: [rowIdx, i] 
+                gridPos: [rowIdx, i] ,
+                vel: this.VEL
             })
             blocks.push(block);
             canvPos[0] += 50;
@@ -139,8 +141,7 @@ class Grid {
 
         for (let row = 0; row < this.blocks.length; row ++) {
             for(let col = 0; col < this.blocks[row].length - 1; col ++) {
-                if (this.blocks[row][col].canvPos[0] === cursorPos[0] && this.blocks[row][col].canvPos[1] === cursorPos[1]) {
-                    debugger
+                if (this.positionsMatch(this.blocks[row][col].canvPos, cursorPos)) {
                     currentBlock = this.blocks[row][col];
                     nextBlock = this.blocks[row][col + 1];
                     currentBlock.swapBlock(nextBlock, this);
@@ -152,7 +153,20 @@ class Grid {
         }
 
     }
-   
+
+    positionsMatch(blockPos, cursorPos) {
+        let cX = cursorPos[0];
+        let cY = cursorPos[1];
+        let bY = blockPos[1]
+        let bX = blockPos[0];
+
+        return (this.between(cX, bX - 5, bX + 5) && this.between(cY, bY - 5, bY + 5))
+    }
+
+    between(num, min, max) {
+        return num >= min && num <= max;
+}
+    
     haveBlocksFall() {
         for (let rowIdx = 1; rowIdx < this.blocks.length; rowIdx++) {
             for (let colIdx = 0; colIdx < this.blocks[0].length; colIdx++) {

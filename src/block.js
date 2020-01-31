@@ -2,7 +2,7 @@ class Block {
     constructor(options) {
         this.canvPos = options.canvPos;
         this.gridPos = options.gridPos;
-        this.vel = .5;
+        this.vel = options.vel;
         this.color = options.color || this.randColor();
         this.size = 50;
     }
