@@ -179,6 +179,15 @@ class Grid {
             }
         }
     }
+
+    increaseGridSpeed(delta) {
+        this.VEL += delta;
+        this.blocks.forEach(row => {
+            row.forEach(block => {
+                block.increaseBlockSpeed(delta);
+            })
+        })
+    }
 }
 
 export default Grid;

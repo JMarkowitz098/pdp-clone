@@ -15,6 +15,7 @@ class GameView {
         }
         this.score = new Score();
         this.onKeyDown = this.onKeyDown.bind(this)
+        this.step = this.step.bind(this)
     }
 
     start() {
@@ -24,7 +25,7 @@ class GameView {
     }
 
     step() {
-        this.score.displayScore();
+        this.score.displayScore()
 
         this.game.moveGrid();
         this.game.moveCursor();

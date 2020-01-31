@@ -67,6 +67,10 @@ class Block {
         otherBlock.gridPos = temp.gridPos;
 
     }
+
+    increaseBlockSpeed(delta) {
+        this.vel += delta;
+    }
 }
 
 export default Block;

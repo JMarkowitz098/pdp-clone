@@ -6,9 +6,11 @@ class Game {
     constructor() {
         this.DIM_X = 400;
         this.DIM_Y = 800;
-        this.VEL = .5
+        this.VEL = .1
         this.grid = new Grid(this.DIM_X, this.DIM_Y, this.VEL)
         this.cursor = new Cursor({pos: [100,600], vel: this.VEL});
+
+        this.increaseVelocity = this.increaseVelocity.bind(this)
     }
 
     drawGrid(ctx) {
@@ -51,6 +53,16 @@ class Game {
         const matchingBlocks = new MatchingBlocks(this.grid)
         matchingBlocks.createMatches();
         matchingBlocks.turnMatchesWhite()
+    }
+
+    increaseVelocity() {
+        // if ((Date.now() - this.startTime) % 5000 === 0) {
+
+            let delta = .1
+            this.VEL += delta
+            this.grid.increaseGridSpeed(delta);
+            this.cursor.increaseCursorSpeed(delta)
+        // }
     }
 
 }

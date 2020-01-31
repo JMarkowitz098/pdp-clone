@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const gameView = new GameView(game, ctx)
     
+    
     //Starts game when 'm' is pressed-----------
     ctx.fillStyle = "#3F91C3";
     ctx.fillRect(-10, 50, 400, 700);
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const startGame = () => {
         gameView.start();
         document.removeEventListener('keydown', gameFunc)
+        setInterval(game.increaseVelocity, 5000);
     }
     
     const gameFunc = (e) => {

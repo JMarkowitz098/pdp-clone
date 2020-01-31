@@ -48,6 +48,10 @@ class Cursor {
             return true;
         }
     }
+
+    increaseCursorSpeed(delta) {
+        this.vel += delta;
+    }
 }
 
 export default Cursor;
