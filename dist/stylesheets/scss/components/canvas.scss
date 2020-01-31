@@ -1,5 +1,10 @@
-@use "./variables";
-
 #game-canvas {
-    background-color: $grey;
+    border: solid 5px black;
+    background-image: url("../../mm11-ost-cover-750x1334.jpg");
+    // background-color: $darkest-blue;
+    background-size: cover;
+    background-position: center -7em;
+    // background-position: 100px; 
+    // height: 1000px;
+    // background-color: red;
 }

@@ -1,0 +1,34 @@
+#instructions-container,
+#controls-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin: 20px;
+    margin-top: 60px;
+    background-color: $background-blue;
+    font-size: 30px;
+    font-family: $orbitron;
+    width: 10em;
+    height: 15em;
+    border: 5px solid black;
+
+    h3 {
+        text-align: center;
+        margin: 5px;
+        padding: 5px;
+        width: 8em;
+    }
+
+    p {
+        text-align: center;
+        margin: 5px;
+        margin-top: 20px;
+        padding: 5px;
+        width: 8em;
+    }
+}
+
+
+

@@ -5,11 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./stylesheets/public/master.css" />
+    <link href="https://fonts.googleapis.com/css?family=Orbitron&display=swap" rel="stylesheet">
     <script type="application/javascript" src="./main.js"></script>
     <title>TA-Clone</title>
 </head>
-<body>
-    <canvas id="game-canvas" width="400" height="800" ></canvas>
-    
+<body id="body">
+    <div id="left-container">
+        <div id="controls-container">
+            <h3>Controls</h3>  
+            <p>W: Up</p>
+            <p>A: Left</p>
+            <p>D: Right</p>
+            <p>S: Down</p>
+            <p>Space Bar: Swap Blocks</p>
+        </div>
+    </div>
+    <canvas id="game-canvas" width="300" height="800" ></canvas>
+    <div id="right-container">
+        <div id="instructions-container">
+            <h3>Instructions</h3>
+            <p>Use the cursor to switch block positions.</p>
+            <p>Get a match of 3 or more blocks of the same color to clear them away.</p>
+        </div>
+        <div id="gameover-container">
+            <h3>Game Over</h3>
+            <button id="gameover-button">Play Again</button>
+        </div>
+    </div>
+
 </body>
 </html>

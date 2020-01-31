@@ -1,48 +1,57 @@
-import Block from './block'
+import Cursor from './cursor';
+import Grid from './grid'
+import MatchingBlocks from './matching_blocks';
 
 class Game {
     constructor() {
-
         this.DIM_X = 400;
-        this.DIM_Y = 700;
-        this.NUM_START_ROWS = 4;
-        this.NUM_COLUMNS = 6;
-        this.blocks = this.createSingleRow();
+        this.DIM_Y = 800;
+        this.grid = new Grid(this.DIM_X, this.DIM_Y)
+        this.cursor = new Cursor({pos: [100,600]});
     }
 
-    createAllRows() {
-        blocks = []
-        for(let i = 0; i < this.NUM_START_ROWS; i++) {
-            blocks.push(this.createSingleRow())
-        }
-    }
-
-    createSingleRow(rowStart) {
-        let pos = [10, 690]
-        let blocks = []
-        for(let i = 0; i < this.NUM_COLUMNS; i ++){
-            let block = new Block({pos: [pos[0], pos[1]]})
-            blocks.push(block);
-            pos[0] += 65;
-        }
-        return blocks;
-    } 
-
-    draw(ctx) {
+    drawGrid(ctx) {
         ctx.clearRect(0, 0, this.DIM_X, this.DIM_Y);
-        ctx.fillStyle = "white";
-        ctx.fillRect(0, 50, this.DIM_X, this.DIM_Y);
+ 
 
-        this.blocks.forEach(block => {
+
+        ctx.fillStyle = "#F0F8FF";
+        ctx.strokeRect(-10, 50, this.DIM_X, this.DIM_Y - 100);
+
+        this.grid.blocks.forEach(row => {
+            this.drawRow(row, ctx)
+        });
+        this.cursor.draw(ctx);
+    }
+
+    drawRow(blocks, ctx) {
+        blocks.forEach(block => {
             block.draw(ctx);
         });
     }
 
-    moveObjects() {
-        this.blocks.forEach(block => {
+    moveGrid() {
+        this.grid.blocks.forEach(row => {
+            this.moveRow(row);
+        });
+    }
+
+    moveRow(blocks) {
+        blocks.forEach(block => {
             block.move();
         });
     }
+
+    moveCursor() {
+        this.cursor.move();
+    }
+
+    removeMatchingBlocks() {
+        const matchingBlocks = new MatchingBlocks(this.grid)
+        matchingBlocks.createMatches();
+        matchingBlocks.turnMatchesWhite()
+    }
+
 }
 
 export default Game;

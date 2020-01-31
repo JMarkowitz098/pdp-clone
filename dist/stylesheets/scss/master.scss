@@ -1,6 +1,13 @@
+//Variables
+
+
 //Base
 @import "./base/reset";
 @import "./base/variables";
 
 //Components
 @import "./components/canvas.scss";
+@import "./components/body.scss";
+@import "./components/score.scss";
+@import "./components/instructions_controls.scss";
+@import "./components/gameover.scss";

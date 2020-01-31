@@ -1,0 +1,1 @@
+{"version":3,"sourceRoot":"","sources":["../../scss/components/gameover.scss","../../scss/base/_variables.scss"],"names":[],"mappings":"AAEA;EACI;EACA;EACA;EACA;EACA;EAEA;EACA,kBCFc;EDGd;EACA,aCDO;EDEP;EACA;EACA;;AAEA;EACI;EACA;EACA;EACA;;AAGJ;EACI,aCdG;EDeH;EACA;EACA;EACA;EACA;EACA;EACA,kBC5BO;ED6BP,OC1BA;ED2BA","file":"gameover.css"}
