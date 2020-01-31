@@ -140,7 +140,6 @@ class Grid {
         for (let row = 0; row < this.blocks.length; row ++) {
             for(let col = 0; col < this.blocks[row].length - 1; col ++) {
                 if (this.blocks[row][col].canvPos[0] === cursorPos[0] && this.blocks[row][col].canvPos[1] === cursorPos[1]) {
-                    debugger
                     currentBlock = this.blocks[row][col];
                     nextBlock = this.blocks[row][col + 1];
                     currentBlock.swapBlock(nextBlock, this);
