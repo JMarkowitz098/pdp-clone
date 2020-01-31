@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const startGame = () => {
         gameView.start();
         document.removeEventListener('keydown', gameFunc)
-        setInterval(game.increaseVelocity, 5000);
+        setInterval(game.increaseVelocity, 10000);
     }
     
     const gameFunc = (e) => {

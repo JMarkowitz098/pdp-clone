@@ -56,13 +56,10 @@ class Game {
     }
 
     increaseVelocity() {
-        // if ((Date.now() - this.startTime) % 5000 === 0) {
-
-            let delta = .1
-            this.VEL += delta
-            this.grid.increaseGridSpeed(delta);
-            this.cursor.increaseCursorSpeed(delta)
-        // }
+        let delta = .1
+        this.VEL += delta
+        this.grid.increaseGridSpeed(delta);
+        this.cursor.increaseCursorSpeed(delta)
     }
 
 }
