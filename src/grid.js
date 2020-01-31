@@ -4,7 +4,7 @@ class Grid {
     constructor(dimX, dimY) {
         this.DIM_X = 400;
         this.DIM_Y = 800;
-        this.NUM_START_ROWS = 12;
+        this.NUM_START_ROWS = 3;
         this.NUM_COLUMNS = 6;
         this.blocks = this.createAllRows();
 
@@ -140,6 +140,7 @@ class Grid {
         for (let row = 0; row < this.blocks.length; row ++) {
             for(let col = 0; col < this.blocks[row].length - 1; col ++) {
                 if (this.blocks[row][col].canvPos[0] === cursorPos[0] && this.blocks[row][col].canvPos[1] === cursorPos[1]) {
+                    debugger
                     currentBlock = this.blocks[row][col];
                     nextBlock = this.blocks[row][col + 1];
                     currentBlock.swapBlock(nextBlock, this);
@@ -151,7 +152,7 @@ class Grid {
         }
 
     }
-
+   
     haveBlocksFall() {
         for (let rowIdx = 1; rowIdx < this.blocks.length; rowIdx++) {
             for (let colIdx = 0; colIdx < this.blocks[0].length; colIdx++) {

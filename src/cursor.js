@@ -18,10 +18,10 @@ class Cursor {
     move() {
         let x = this.pos[0];
         let y = this.pos[1];
+
         if (this.pos[1] <= 50) {
             this.pos = [x, y + 50];
         } else {
-
             this.pos = [x, y - this.vel];
         }
     }
