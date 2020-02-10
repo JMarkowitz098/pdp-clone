@@ -9,10 +9,8 @@
 
     margin: 20px;
     background-color: $background-blue;
-    font-size: 30px;
+    font-size: 1.8rem;
     font-family: $orbitron;
-    width: 10em;
-    height: 7em;
     border: 5px solid black;
 
     h3 {
@@ -24,14 +22,18 @@
 
     button {
         font-family: $orbitron;
-        font-size: 30px;
+        font-size: 1.6rem;
         text-align: center;
-        margin: 5px;
-        margin-top: 20px;
-        padding: 5px;
+        margin: .7rem;
+        padding: .5rem;
         width: 8em;
         background-color: $darkest-blue;
         color: $green;
         border: none;
+
+        &:hover {
+            background-color: $blue;
+
+        }
     }
 }

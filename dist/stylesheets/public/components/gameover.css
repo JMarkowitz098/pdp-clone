@@ -6,10 +6,8 @@
   align-items: center;
   margin: 20px;
   background-color: #3695c5;
-  font-size: 30px;
+  font-size: 1.8rem;
   font-family: "Orbitron", sans-serif;
-  width: 10em;
-  height: 7em;
   border: 5px solid black;
 }
 #gameover-container h3 {
@@ -20,15 +18,17 @@
 }
 #gameover-container button {
   font-family: "Orbitron", sans-serif;
-  font-size: 30px;
+  font-size: 1.6rem;
   text-align: center;
-  margin: 5px;
-  margin-top: 20px;
-  padding: 5px;
+  margin: 0.7rem;
+  padding: 0.5rem;
   width: 8em;
   background-color: #01017c;
   color: #53b57f;
   border: none;
+}
+#gameover-container button:hover {
+  background-color: #0400f8;
 }
 
 /*# sourceMappingURL=gameover.css.map */

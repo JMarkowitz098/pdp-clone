@@ -142,7 +142,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sco
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nclass Gameover {\n    constructor() {\n        this.ele =  document.getElementById(\"gameover-container\");\n    }\n\n    initializeGameOver() {\n        let button = document.getElementById(\"gameover-button\")\n        button.addEventListener(\"click\", this.reloadPage)\n\n        this.ele.style.visibility = \"visible\"\n    }\n\n    reloadPage(e) {\n        location.reload()\n    }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Gameover);\n\n//# sourceURL=webpack:///./src/gameover.js?");
+eval("__webpack_require__.r(__webpack_exports__);\nclass Gameover {\n    constructor() {\n        this.ele =  document.getElementById(\"gameover-container\");\n    }\n\n    initializeGameOver() {\n        let button = document.getElementById(\"gameover-button\")\n        button.addEventListener(\"click\", this.reloadPage)\n        \n        let finalScore = document.getElementById(\"go-score\")\n        let score = document.getElementById(\"score\").innerHTML\n        finalScore.innerHTML = `Final Score: ${score}`;\n\n        this.ele.style.visibility = \"visible\"\n    }\n\n    reloadPage(e) {\n        location.reload()\n    }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Gameover);\n\n//# sourceURL=webpack:///./src/gameover.js?");
 
 /***/ }),
 
