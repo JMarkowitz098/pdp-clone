@@ -6,6 +6,10 @@ class Gameover {
     initializeGameOver() {
         let button = document.getElementById("gameover-button")
         button.addEventListener("click", this.reloadPage)
+        
+        let finalScore = document.getElementById("go-score")
+        let score = document.getElementById("score").innerHTML
+        finalScore.innerHTML = `Final Score: ${score}`;
 
         this.ele.style.visibility = "visible"
     }
