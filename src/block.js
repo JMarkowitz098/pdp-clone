@@ -60,8 +60,8 @@ class Block {
         let newRow = otherBlock.gridPos[0]
         let newCol = otherBlock.gridPos[1];
 
-        [grid.blocks[gridRow][gridCol], grid.blocks[newRow][newCol]] = 
-        [grid.blocks[newRow][newCol], grid.blocks[gridRow][gridCol]]
+        [grid.blocks[gridRow][gridCol], grid.blocks[newRow][newCol]] =
+            [grid.blocks[newRow][newCol], grid.blocks[gridRow][gridCol]]
         this.canvPos = otherBlock.canvPos;
         this.gridPos = otherBlock.gridPos;
         otherBlock.canvPos = temp.canvPos;

@@ -32,9 +32,9 @@ class Grid {
         let blocks = []
 
         for (let i = 0; i < this.NUM_COLUMNS; i++) {
-            let block = new Block({ 
+            let block = new Block({
                 canvPos: [canvPos[0], canvPos[1]],
-                gridPos: [rowIdx, i] ,
+                gridPos: [rowIdx, i],
                 vel: this.VEL
             })
             blocks.push(block);
@@ -139,8 +139,8 @@ class Grid {
         let nextBlock;
         let blocksSwapped = false;
 
-        for (let row = 0; row < this.blocks.length; row ++) {
-            for(let col = 0; col < this.blocks[row].length - 1; col ++) {
+        for (let row = 0; row < this.blocks.length; row++) {
+            for (let col = 0; col < this.blocks[row].length - 1; col++) {
                 if (this.positionsMatch(this.blocks[row][col].canvPos, cursorPos)) {
                     currentBlock = this.blocks[row][col];
                     nextBlock = this.blocks[row][col + 1];
@@ -165,8 +165,8 @@ class Grid {
 
     between(num, min, max) {
         return num >= min && num <= max;
-}
-    
+    }
+
     haveBlocksFall() {
         for (let rowIdx = 1; rowIdx < this.blocks.length; rowIdx++) {
             for (let colIdx = 0; colIdx < this.blocks[0].length; colIdx++) {

@@ -8,14 +8,14 @@ class Game {
         this.DIM_Y = 800;
         this.VEL = .1
         this.grid = new Grid(this.DIM_X, this.DIM_Y, this.VEL)
-        this.cursor = new Cursor({pos: [100,600], vel: this.VEL});
+        this.cursor = new Cursor({ pos: [100, 600], vel: this.VEL });
 
         this.increaseVelocity = this.increaseVelocity.bind(this)
     }
 
     drawGrid(ctx) {
         ctx.clearRect(0, 0, this.DIM_X, this.DIM_Y);
- 
+
 
 
         ctx.fillStyle = "#F0F8FF";
